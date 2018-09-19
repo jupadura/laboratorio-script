@@ -5,7 +5,8 @@ var elementos = {
 	observacion: '[id="form1:j_id192"]',
 	estado: '[id="form1:j_id197"]',
 	guardar: '[id="form1:j_id203"]',
-	agregarParametro: '[id="form1:tblListaDatos_SeguimientoAnalisis:j_id149"]'
+	agregarParametro: '[id="form1:tblListaDatos_SeguimientoAnalisis:j_id149"]',
+	filas: '[id="form1:tblListaDatos_ParametrosAnalista"] .iceRowSel'
 };
 
 var codigosEstados = {
@@ -99,7 +100,7 @@ var iniciar = () => {
 			var existPagesTable = () => {
 				getElement(elementos.filtroCodigo).value = codigo;
 				getElement(elementos.filtroBotonBuscarCodigo).click();
-				return new Promise(resolve => existElement(resolve, '.iceDatPgrTbl'));
+				return new Promise(resolve => existElement(resolve, elementos.filas));
 			};
 		
 			var seguimientoMuestra = element => {
@@ -166,7 +167,7 @@ document.body.innerHTML = `
 				</ul>
 
 				<div style="font-family: monospace; font-size: 13px;">
-					Version 2
+					Version 3
 				</div>
 			</div>
 			<div style="flex-grow: 1;">
