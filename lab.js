@@ -11,7 +11,7 @@ var iniciar = () => {
 			var ventana = window.open(window.location.href, '', 'fullscreen=no');
 			ventana.alert = () => {
 				ventana.close();
-				muestrasProcesadas.innerHTML += `
+				document.querySelector('#muestrasProcesadas').innerHTML += `
 					<h5>
 						codigo: <strong>${codigo}</strong> - 
 						tipo: <strong>${tipo}</strong> - 
