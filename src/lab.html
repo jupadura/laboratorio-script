@@ -1,0 +1,78 @@
+<section id="labScript" class="container">
+    <section id="modal" class="modal-container" hidden>
+        <section class="modal">
+            <header>
+                <section class="title">
+                    <h1 class="color-azul">
+                        CODIGO; PARAMETRO; ESTADO; VALOR[; OBSERVACION]
+                    </h1>
+                    <h2 class="color-gris">
+                        Formato registros CSV
+                    </h2>
+                </section>
+                <a 
+                    class="close-button"
+                    onclick="labScript.closeModal()"
+                >
+                    X
+                </a>
+            </header>
+            <section class="modal-content">
+                <section class="input-container">
+                    <textarea id="muestrasCSV"></textarea>
+                </section>
+                <section class="options">
+                    <h1> Estados validos </h1>
+                    <ul class="estados-validos">
+                        <li><strong>1</strong> - No asignado</li>
+                        <li><strong>2</strong> - En espera</li>
+                        <li><strong>3</strong> - En análisis</li>
+                        <li><strong>4</strong> - Revisión calidad</li>
+                        <li><strong>5</strong> - Rechazado</li>
+                        <li><strong>6</strong> - Análisis posterior calidad</li>
+                        <li><strong>7</strong> - Finalizado</li>
+                    </ul>
+                </section>
+            </section>
+            <footer>
+                <input 
+                    type="button" 
+                    value="PROCESAR" 
+                    class="process-button"
+                    onclick="labScript.createRows()"
+                />
+            </footer>
+        </section>
+    </section>
+    <section id="statusTable">
+        <table cellspacing="0px">
+            <thead>
+                <tr>
+                    <th>f(x)</th>
+                    <th>MUESTRA</th>
+                    <th>PARAMETRO</th>
+                    <th>ESTADO</th>
+                    <th>VALOR</th>
+                    <th>OBSERVACION</th>
+                    <th>ESTADO REGISTRO</th>
+                </tr>
+            </thead>
+            <tbody id="tableTbody">
+                <template id="rowTemplate">
+                    <tr class="new-register">
+                        <td> 
+                            <input type="checkbox" disabled="disabled"/>
+                        </td>
+                        <td class="codigo"></td>
+                        <td class="parametro"></td>
+                        <td class="estado"></td>
+                        <td class="valor"></td>
+                        <td class="observacion"></td>
+                        <td class="estado-registro"></td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+        <a class="add-button" onclick="labScript.openModal()"><label>+</label></a>
+    </section>
+</section>
