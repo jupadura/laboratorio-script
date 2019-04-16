@@ -97,9 +97,10 @@ var labScript = {
                 this.addRow({
                     'codigo': String(splitted[0] || '').trim(), 
                     'parametro': String(splitted[1] || '').trim(), 
-                    'estado': String(splitted[2] || '').trim(), 
-                    'valor': String(splitted[3] || '').trim(), 
-                    'observacion': String(splitted[4] || '').trim()
+                    'fecha-analisis': String(splitted[2] || '').trim(), 
+                    'estado': String(splitted[3] || '').trim(), 
+                    'valor': String(splitted[4] || '').trim(), 
+                    'observacion': String(splitted[5] || '').trim()
                 });
             });
         }     
@@ -107,7 +108,7 @@ var labScript = {
         this.procesarMuestras();
     },
     addRow: function (muestra) {        
-        if (muestra.codigo && muestra.parametro && muestra.estado && muestra.valor) {
+        if (muestra.codigo && muestra.parametro && muestra["fecha-analisis"] && muestra.estado && muestra.valor) {
             var tbody = document.querySelector('#tableTbody');
             var template = document.querySelector('#rowTemplate').content.cloneNode(true);
             template.querySelector('tr').setAttribute('id', 'Muestra' + (Math.random() + Date()).replace(/[\W]/g, ''));
@@ -118,6 +119,22 @@ var labScript = {
             }
             tbody.appendChild(template);
         }
+    },
+    XMLHttpRequestPromise: function (callback, value) {
+        var ventana = this.ventana;
+        return new Promise(resolve => {
+            var oldOpen = ventana.XMLHttpRequest.prototype.open;
+            ventana.XMLHttpRequest.prototype.open = function (method, url, async, user, pass) {
+                this.addEventListener("readystatechange", () => {
+                    if (this.readyState === 4) {
+                        resolve(value);
+                        ventana.XMLHttpRequest.prototype.open = oldOpen;
+                    }
+                }, false);
+                oldOpen.call(this, method, url, async, user, pass);
+            };
+            callback();
+          });
     },
     procesarMuestras: function () {
         if (this.ventana === null) {
@@ -134,6 +151,13 @@ var labScript = {
                 new Promise(resolve => this.existElement(resolve, this.elementosUI.filtroCodigo))
                     .then(() => this.existPagesTable())
                     .then(() => ( new Promise((resolve, reject) => this.findCodeRow(resolve, reject))))
+                    .then(element => {
+                        element.querySelector("input").value = this.muestraEnProceso.muestra["fecha-analisis"];
+                        return this.XMLHttpRequestPromise(
+                            () => element.querySelector("a.iceCmdLnk").click(),
+                            element
+                        );
+                    })
                     .then((element) => this.seguimientoMuestra(element))
                     .catch(error => this.actualizarRegistro(error.clase, error.mensaje))
             }

@@ -166,8 +166,7 @@ h2 {
 }
 
 #labScript .input-container textarea {
-    width: 100%;
-    height: 100%;
+    flex: auto;
 }
 
 [hidden] {
